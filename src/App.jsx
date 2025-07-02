@@ -17,7 +17,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Menu></Menu>
+        <Menu usuarioAdmin={usuarioAdmin} setUsuarioAdmin={setUsuarioAdmin}></Menu>
         <main>
           <Routes>
             <Route path="/" element={<Inicio />}></Route>
