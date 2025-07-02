@@ -8,8 +8,12 @@ import CardProducto from "./components/pages/producto/CardProducto";
 import FormularioProducto from "./components/pages/producto/FormularioProducto";
 import Footer from "./components/shared/Footer";
 import Menu from "./components/shared/Menu";
+import { useState } from "react";
 
 function App() {
+  const usuarioLogueado = JSON.parse(sessionStorage.getItem('userKey')) || false;
+  const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado)
+
   return (
     <>
       <BrowserRouter>
@@ -23,7 +27,7 @@ function App() {
             ></Route>
             <Route
               path="/login"
-              element={<Login></Login>}
+              element={<Login setUsuarioAdmin={setUsuarioAdmin}></Login>}
             ></Route>
             <Route
               path="/administrador"
