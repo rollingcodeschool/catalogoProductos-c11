@@ -9,15 +9,20 @@ import FormularioProducto from "./components/pages/producto/FormularioProducto";
 import Footer from "./components/shared/Footer";
 import Menu from "./components/shared/Menu";
 import { useState } from "react";
+import ProtectorAdmin from "./components/routes/ProtectorAdmin";
 
 function App() {
-  const usuarioLogueado = JSON.parse(sessionStorage.getItem('userKey')) || false;
-  const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado)
+  const usuarioLogueado =
+    JSON.parse(sessionStorage.getItem("userKey")) || false;
+  const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado);
 
   return (
     <>
       <BrowserRouter>
-        <Menu usuarioAdmin={usuarioAdmin} setUsuarioAdmin={setUsuarioAdmin}></Menu>
+        <Menu
+          usuarioAdmin={usuarioAdmin}
+          setUsuarioAdmin={setUsuarioAdmin}
+        ></Menu>
         <main>
           <Routes>
             <Route path="/" element={<Inicio />}></Route>
@@ -31,16 +36,12 @@ function App() {
             ></Route>
             <Route
               path="/administrador"
-              element={<Administrador></Administrador>}
-            ></Route>
-            <Route
-              path="/administrador/crear"
-              element={<FormularioProducto></FormularioProducto>}
-            ></Route>
-            <Route
-              path="/administrador/editar"
-              element={<FormularioProducto></FormularioProducto>}
-            ></Route>
+              element={<ProtectorAdmin isAdmin={usuarioAdmin}></ProtectorAdmin>}
+            >
+              <Route index element={<Administrador></Administrador>}></Route>
+              <Route path="crear" element={<FormularioProducto></FormularioProducto>}></Route>
+              <Route path="editar" element={<FormularioProducto></FormularioProducto>}></Route>
+            </Route>
             <Route path="*" element={<Error404></Error404>}></Route>
           </Routes>
         </main>
