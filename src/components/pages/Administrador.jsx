@@ -1,14 +1,25 @@
 import { Button, Table } from "react-bootstrap";
 import ItemProducto from "./producto/ItemProducto";
+import { productosData } from "../../data/productosPrueba";
 
-const Administrador = () => {
-    return (
-        <section className="container mainSection">
+const Administrador = ({ setProductos, productos }) => {
+
+  const cargarProductosPrueba = ()=>{
+    // cargar datos de prueba
+     setProductos(productosData)
+  }
+  return (
+    <section className="container mainSection">
       <div className="d-flex justify-content-between align-items-center mt-5">
         <h1 className="display-4 ">Productos disponibles</h1>
-        <Button className="btn btn-primary" >
-          <i className="bi bi-file-earmark-plus"></i>
-        </Button>
+        <div>
+          <Button className="btn btn-primary">
+            <i className="bi bi-file-earmark-plus"></i>
+          </Button>
+          <Button className="btn btn-info ms-2 text-light" onClick={cargarProductosPrueba}>
+            <i className="bi bi-database-fill-add"></i>
+          </Button>
+        </div>
       </div>
       <hr />
       <Table responsive striped bordered hover>
@@ -23,11 +34,13 @@ const Administrador = () => {
           </tr>
         </thead>
         <tbody>
-  <ItemProducto></ItemProducto>
+          {
+            productos.map((producto, indice)=><ItemProducto key={producto.id} producto={producto} fila={indice + 1}></ItemProducto>)
+          }
         </tbody>
       </Table>
     </section>
-    );
+  );
 };
 
 export default Administrador;

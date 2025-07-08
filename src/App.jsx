@@ -15,6 +15,7 @@ function App() {
   const usuarioLogueado =
     JSON.parse(sessionStorage.getItem("userKey")) || false;
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado);
+  const [productos, setProductos] = useState([])
 
   return (
     <>
@@ -38,7 +39,7 @@ function App() {
               path="/administrador"
               element={<ProtectorAdmin isAdmin={usuarioAdmin}></ProtectorAdmin>}
             >
-              <Route index element={<Administrador></Administrador>}></Route>
+              <Route index element={<Administrador setProductos={setProductos} productos={productos}></Administrador>}></Route>
               <Route path="crear" element={<FormularioProducto></FormularioProducto>}></Route>
               <Route path="editar" element={<FormularioProducto></FormularioProducto>}></Route>
             </Route>
