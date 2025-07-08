@@ -8,15 +8,20 @@ import CardProducto from "./components/pages/producto/CardProducto";
 import FormularioProducto from "./components/pages/producto/FormularioProducto";
 import Footer from "./components/shared/Footer";
 import Menu from "./components/shared/Menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProtectorAdmin from "./components/routes/ProtectorAdmin";
 
 function App() {
   const usuarioLogueado =
     JSON.parse(sessionStorage.getItem("userKey")) || false;
+  const productosLocalstorage = JSON.parse(localStorage.getItem('catalogoProductos')) || []
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado);
-  const [productos, setProductos] = useState([])
+  const [productos, setProductos] = useState(productosLocalstorage)
 
+  useEffect(()=>{
+    localStorage.setItem('catalogoProductos', JSON.stringify(productos))
+  }, [productos])
+  
   return (
     <>
       <BrowserRouter>
