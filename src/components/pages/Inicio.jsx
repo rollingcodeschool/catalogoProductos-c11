@@ -1,7 +1,7 @@
 import { Container, Row } from "react-bootstrap";
 import CardProducto from "./producto/CardProducto";
 
-const Inicio = ({productos}) => {
+const Inicio = ({ productos }) => {
   return (
     <section className="mainSection">
       <img
@@ -13,9 +13,9 @@ const Inicio = ({productos}) => {
         <h1 className="display-4">Nuestros Productos</h1>
         <hr />
         <Row>
-          {
-            productos.map((producto)=> <CardProducto key={producto.id} producto={producto}></CardProducto>)
-          }
+          {productos.map((producto) => (
+            <CardProducto key={producto.id} producto={producto}></CardProducto>
+          ))}
         </Row>
       </Container>
     </section>
