@@ -31,7 +31,7 @@ function App() {
         ></Menu>
         <main>
           <Routes>
-            <Route path="/" element={<Inicio />}></Route>
+            <Route path="/" element={<Inicio productos={productos}/>}></Route>
             <Route
               path="/detalle"
               element={<DetalleProducto></DetalleProducto>}
