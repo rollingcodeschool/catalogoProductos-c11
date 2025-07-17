@@ -41,6 +41,24 @@ function App() {
     const productoBuscado = productos.find((itemProducto)=> itemProducto.id ===  idProducto)
     return productoBuscado
   }
+
+  const editarProducto = (idProducto, productoActualizado)=>{
+    const productosEditados = productos.map((itemProducto)=>{
+      if(itemProducto.id === idProducto){
+        return {
+          ...itemProducto,
+          ...productoActualizado
+        }
+      }else{
+        return itemProducto
+      }
+    })
+
+    console.log(productosEditados)
+    //actualizar el state
+    setProductos(productosEditados)
+    return true
+  }
   
   return (
     <>
@@ -66,7 +84,7 @@ function App() {
             >
               <Route index element={<Administrador setProductos={setProductos} productos={productos} borrarProducto={borrarProducto}></Administrador>}></Route>
               <Route path="crear" element={<FormularioProducto titulo={'Crear producto'} crearProducto={crearProducto}></FormularioProducto>}></Route>
-              <Route path="editar/:id" element={<FormularioProducto titulo={'Editar producto'} buscarProducto={buscarProducto}></FormularioProducto>}></Route>
+              <Route path="editar/:id" element={<FormularioProducto titulo={'Editar producto'} buscarProducto={buscarProducto} editarProducto={editarProducto}></FormularioProducto>}></Route>
             </Route>
             <Route path="*" element={<Error404></Error404>}></Route>
           </Routes>
