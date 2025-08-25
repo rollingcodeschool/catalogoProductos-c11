@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
-import { crearProducto} from '../../../helpers/queries';
+import { crearProducto, obtenerProductoPorID, editarProducto } from "../../../helpers/queries";
 
-const FormularioProducto = ({ titulo, buscarProducto, editarProducto }) => {
+const FormularioProducto = ({ titulo, buscarProducto }) => {
   const {
     register,
     handleSubmit,
@@ -14,28 +14,33 @@ const FormularioProducto = ({ titulo, buscarProducto, editarProducto }) => {
     setValue,
   } = useForm();
   const { id } = useParams();
+  const navegacion = useNavigate();
 
   useEffect(() => {
     //verificar si estoy editando
-    if (titulo === "Editar producto") {
-      //busco el producto por id y lo dibujo en el formulario
-      const productoBuscado = buscarProducto(id);
-      console.log(productoBuscado);
-      setValue("nombreProducto", productoBuscado.nombreProducto);
-      setValue("precio", productoBuscado.precio);
-      setValue("imagen", productoBuscado.imagen);
-      setValue("descripcion_breve", productoBuscado.descripcion_breve);
-      setValue("descripcion_amplia", productoBuscado.descripcion_amplia);
-      setValue("categoria", productoBuscado.categoria);
-    }
+    obtenerProducto();
   }, []);
 
-  console.log(id);
+  const obtenerProducto = async() => {
+    if (titulo === "Editar producto") {
+      //busco el producto por id y lo dibujo en el formulario
+      const respuesta = await obtenerProductoPorID(id);
+      if (respuesta.status === 200) {
+        const productoBuscado = await respuesta.json();
+        setValue("nombreProducto", productoBuscado.nombreProducto);
+        setValue("precio", productoBuscado.precio);
+        setValue("imagen", productoBuscado.imagen);
+        setValue("descripcion_breve", productoBuscado.descripcion_breve);
+        setValue("descripcion_amplia", productoBuscado.descripcion_amplia);
+        setValue("categoria", productoBuscado.categoria);
+      }
+    }
+  }
 
   const onSubmit = async (producto) => {
     if (titulo === "Crear producto") {
       //crear el producto nuevo
-      const respuesta = await crearProducto(producto)
+      const respuesta = await crearProducto(producto);
       if (respuesta.status === 201) {
         Swal.fire({
           title: "Producto creado",
@@ -44,15 +49,18 @@ const FormularioProducto = ({ titulo, buscarProducto, editarProducto }) => {
         });
         //resetear el formulario
         reset();
-      }//pueden agregar un else con un mensaje de error
-    }else{
+      } //pueden agregar un else con un mensaje de error
+    } else {
       //tomar los del formulario 'producto'
-      if(editarProducto(id, producto)){
-          Swal.fire({
+      const respuesta = await editarProducto(producto, id)
+      if (respuesta.status === 200) {
+        Swal.fire({
           title: "Producto editado",
           text: `El producto ${producto.nombreProducto} fue editado correctamente.`,
           icon: "success",
         });
+        // redireccionar a la pagina del administrador
+        navegacion('/administrador')
       }
     }
   };
