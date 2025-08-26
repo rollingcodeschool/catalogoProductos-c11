@@ -1,8 +1,9 @@
 import { Button } from "react-bootstrap";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
+import { borrarProductoPorID, leerProductos } from "../../../helpers/queries";
 
-const ItemProducto = ({ producto, fila, borrarProducto }) => {
+const ItemProducto = ({ producto, fila, setListaProductos }) => {
   const eliminarProducto = () => {
     Swal.fire({
       title: "Eliminar producto",
@@ -13,15 +14,20 @@ const ItemProducto = ({ producto, fila, borrarProducto }) => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Eliminar",
       cancelButtonText: "Cancelar",
-    }).then((result) => {
+    }).then( async(result) => {
       if (result.isConfirmed) {
         // aqui borro efectivamente el producto
-        if(borrarProducto(producto.id)){
+        const respuesta = await borrarProductoPorID(producto._id)
+        if(respuesta.status === 200){
           Swal.fire({
             title: "Producto eliminado",
             text: `El producto ${producto.nombreProducto} fue eliminado correctamente`,
             icon: "success",
           });
+          // luego debo actualizar la tabla de productos
+          const repuestaProductos = await leerProductos();
+          const productosActualizados = await repuestaProductos.json()
+          setListaProductos(productosActualizados)
         }else{
             Swal.fire({
             title: "Ocurrio un error",
@@ -47,7 +53,7 @@ const ItemProducto = ({ producto, fila, borrarProducto }) => {
       </td>
       <td>{producto.categoria}</td>
       <td className="text-center">
-        <Link className="me-lg-2 btn btn-warning" to={'/administrador/editar/'+producto.id}>
+        <Link className="me-lg-2 btn btn-warning" to={'/administrador/editar/'+producto._id}>
           <i className="bi bi-pencil-square"></i>
         </Link>
         <Button variant="danger" onClick={eliminarProducto}>
