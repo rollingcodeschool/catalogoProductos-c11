@@ -19,11 +19,13 @@ const Login = ({ setUsuarioAdmin }) => {
       console.log(datosUsuario);
       //actualizar el state usuarioAdmin
       //guardar los datos en el sessionStorage
+      setUsuarioAdmin({nombreUsuario: datosUsuario.nombreUsuario, token: datosUsuario.token});
       Swal.fire({
         title: "Inicio de sesion correcto",
         text: `Bienvenido ${datosUsuario.nombreUsuario}` ,
         icon: "success",
       });
+      navegacion('/administrador')
     }else{
        Swal.fire({
         title: "Error al iniciar sesion",
@@ -31,20 +33,6 @@ const Login = ({ setUsuarioAdmin }) => {
         icon: "error",
       });
     }
-
-    // console.log(usuario);
-    // if (
-    //   usuario.email === import.meta.env.VITE_API_EMAIL &&
-    //   usuario.password === import.meta.env.VITE_API_PASSWORD
-    // ) {
-    //   //soy el administrador
-    //   console.log("Soy el administrador");
-    //   setUsuarioAdmin(true);
-    //   sessionStorage.setItem("userKey", true);
-    //   navegacion("/administrador");
-    // } else {
-    //   console.log("Email o contraseña incorrecto.");
-    // }
   };
 
   return (
