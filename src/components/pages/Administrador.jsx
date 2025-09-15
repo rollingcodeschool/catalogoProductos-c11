@@ -1,11 +1,10 @@
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import ItemProducto from "./producto/ItemProducto";
-import { productosData } from "../../data/productosPrueba";
 import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import { leerProductos } from "../../helpers/queries";
 
-const Administrador = ({ setProductos, productos, borrarProducto }) => {
+const Administrador = () => {
   const [listaProductos, setListaProductos] = useState([]);
 
   useEffect(()=>{
@@ -22,10 +21,7 @@ const Administrador = ({ setProductos, productos, borrarProducto }) => {
     }
   }
 
-  const cargarProductosPrueba = ()=>{
-    // cargar datos de prueba
-     setProductos(productosData)
-  }
+
   return (
     <section className="container mainSection">
       <div className="d-flex justify-content-between align-items-center mt-5">
@@ -34,9 +30,6 @@ const Administrador = ({ setProductos, productos, borrarProducto }) => {
           <Link className="btn btn-primary" to={'/administrador/crear'}>
             <i className="bi bi-file-earmark-plus"></i>
           </Link>
-          <Button className="btn btn-info ms-2 text-light" onClick={cargarProductosPrueba}>
-            <i className="bi bi-database-fill-add"></i>
-          </Button>
         </div>
       </div>
       <hr />
@@ -53,7 +46,7 @@ const Administrador = ({ setProductos, productos, borrarProducto }) => {
         </thead>
         <tbody>
           {
-            listaProductos.map((producto, indice)=><ItemProducto key={producto._id} producto={producto} fila={indice + 1} borrarProducto={borrarProducto} setListaProductos={setListaProductos}></ItemProducto>)
+            listaProductos.map((producto, indice)=><ItemProducto key={producto._id} producto={producto} fila={indice + 1}  setListaProductos={setListaProductos}></ItemProducto>)
           }
         </tbody>
       </Table>

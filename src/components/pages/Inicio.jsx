@@ -22,7 +22,6 @@ const Inicio = () => {
   };
 
   const handleInputChange = (e) => {
-    console.log(e.target.value);
     setTerminoBusqueda(e.target.value);
   };
 
