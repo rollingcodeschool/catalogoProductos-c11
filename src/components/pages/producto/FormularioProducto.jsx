@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
 import { crearProducto, obtenerProductoPorID, editarProducto } from "../../../helpers/queries";
 
-const FormularioProducto = ({ titulo, buscarProducto }) => {
+const FormularioProducto = ({ titulo }) => {
   const {
     register,
     handleSubmit,
