@@ -3,7 +3,11 @@ import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
-import { crearProducto, obtenerProductoPorID, editarProducto } from "../../../helpers/queries";
+import {
+  crearProducto,
+  obtenerProductoPorID,
+  editarProducto,
+} from "../../../helpers/queries";
 
 const FormularioProducto = ({ titulo }) => {
   const {
@@ -21,7 +25,7 @@ const FormularioProducto = ({ titulo }) => {
     obtenerProducto();
   }, []);
 
-  const obtenerProducto = async() => {
+  const obtenerProducto = async () => {
     if (titulo === "Editar producto") {
       //busco el producto por id y lo dibujo en el formulario
       const respuesta = await obtenerProductoPorID(id);
@@ -35,7 +39,7 @@ const FormularioProducto = ({ titulo }) => {
         setValue("categoria", productoBuscado.categoria);
       }
     }
-  }
+  };
 
   const onSubmit = async (producto) => {
     if (titulo === "Crear producto") {
@@ -49,10 +53,17 @@ const FormularioProducto = ({ titulo }) => {
         });
         //resetear el formulario
         reset();
-      } //pueden agregar un else con un mensaje de error
+      }else{
+        const datosErroneos = await respuesta.json()
+         Swal.fire({
+          title: "Ocurrio un error",
+          text: `El producto ${producto.nombreProducto} no pudo ser creado. ${datosErroneos[0].msg}`,
+          icon: "error",
+        });
+      }
     } else {
       //tomar los del formulario 'producto'
-      const respuesta = await editarProducto(producto, id)
+      const respuesta = await editarProducto(producto, id);
       if (respuesta.status === 200) {
         Swal.fire({
           title: "Producto editado",
@@ -60,7 +71,14 @@ const FormularioProducto = ({ titulo }) => {
           icon: "success",
         });
         // redireccionar a la pagina del administrador
-        navegacion('/administrador')
+        navegacion("/administrador");
+      }else{
+         const datosErroneos = await respuesta.json()
+         Swal.fire({
+          title: "Ocurrio un error",
+          text: `El producto ${producto.nombreProducto} no pudo ser editado. ${datosErroneos[0].msg}`,
+          icon: "error",
+        });
       }
     }
   };
