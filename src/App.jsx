@@ -73,10 +73,10 @@ function App() {
         ></Menu>
         <main>
           <Routes>
-            <Route path="/" element={<Inicio productos={productos}/>}></Route>
+            <Route path="/" element={<Inicio/>}></Route>
             <Route
               path="/detalle/:id"
-              element={<DetalleProducto buscarProducto={buscarProducto}></DetalleProducto>}
+              element={<DetalleProducto></DetalleProducto>}
             ></Route>
             <Route
               path="/login"
