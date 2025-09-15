@@ -2,8 +2,6 @@ const urlproductos = import.meta.env.VITE_API_PRODUCTOS;
 const urlUsuarios = import.meta.env.VITE_API_USUARIOS;
 // get, post, put, delete
 
-console.log(urlproductos);
-
 export const leerProductos = async () => {
     try{
         const respuesta = await fetch(urlproductos)
