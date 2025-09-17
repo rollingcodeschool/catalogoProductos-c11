@@ -85,3 +85,13 @@ export const login = async (datosUsuario) => {
     return null;
   }
 };
+
+export const leerProductosPaginados = async (page, limit) => {
+  try {
+    const respuesta = await fetch(`${urlproductos}/paginacion?page=${page}&limit=${limit}`);
+    return respuesta;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
