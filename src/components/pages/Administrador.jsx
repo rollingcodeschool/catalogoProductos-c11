@@ -52,10 +52,18 @@ const Administrador = () => {
             <ItemProducto
               key={producto._id}
               producto={producto}
-              fila={indice + 1}
+              fila={(page - 1) * limit + indice + 1}
               setListaProductos={setListaProductos}
+              page={page}
+              limit={limit}
             ></ItemProducto>
           ))}
+          {/* 
+          (page - 1) * limit + indice + 1 
+          (1-1) * 10 + 0 + 1 = 1
+          (2-1) *10 + 0 + 1= 
+          */}
+
         </tbody>
       </Table>
       <div className="d-flex justify-content-center align-items-center my-3">
